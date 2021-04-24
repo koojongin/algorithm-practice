@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    function getResult(naturalNumbers, m) {
+
+      if (naturalNumbers.length < 0)
+        throw new Error("InvalidParamter nnl");
+      if (naturalNumbers.length > 10)
+        throw new Error("InvalidParamter nnl");
+
+      if (!(1 <= m && m <= 100))
+        throw new Error("InvalidParamter m");
+
+      let sortedNaturals = naturalNumbers.sort((a, b) => b - a);
+      const result = [];
+      sortedNaturals.forEach((naturalNumber, index) => {
+        let rest = sortedNaturals.slice(index, sortedNaturals.length - 1);
+        rest.forEach((restedNaturalNumber, rIndex) => {
+          let sumWithPlus = naturalNumber + restedNaturalNumber;
+          if (m == sumWithPlus) {
+            result.push(sumWithPlus);
+            //여기 만족하면 다음에 올 RestNaturalNumbers는 조건절대안되니까 안해도 됨.
+          } else if (m < sumWithPlus) {
+            //커졌으면 빼는 연산만 찾으면 됨
+            let restForMinus = rest.slice(rIndex, rest.length - 1);
+            restForMinus.forEach((restedForMinusNaturalNumber, rmIndex) => {
+              let sumWithMinus = sumWithPlus - restedForMinusNaturalNumber;
+              if (m == sumWithMinus) {
+                result.push(sumWithMinus);
+              }
+            })
+          }
+        })
+      })
+      return result;
+    }
+
+    let result = getResult([4, 2, 10, 3, 5], 15)
+    console.log(result);
+  </script>
+</head>
+<body>
+
+</body>
+</html>
